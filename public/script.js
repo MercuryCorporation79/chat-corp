@@ -1,52 +1,56 @@
-const socket = io();
-
-const messageInput = document.getElementById('messageInput');
-const sendMessageButton = document.getElementById('sendMessage');
-const chatBox = document.querySelector('.chat-box');
-
-// Fonction de chiffrement
-function encryptMessage(message) {
-    const passphrase = 'MercuryCorporation19992024';
-    return CryptoJS.AES.encrypt(message, passphrase).toString();
-}
-
-// Fonction pour déchiffrer les messages
-function decryptMessage(ciphertext) {
-    const passphrase = 'MercuryCorporation19992024';
-    const bytes = CryptoJS.AES.decrypt(ciphertext, passphrase);
-    return bytes.toString(CryptoJS.enc.Utf8);
-}
-
-// Ajouter un message dans la boîte de discussion
-function addMessageToChatBox(username, message, encrypted = false) {
-    const messageBubble = document.createElement('div');
-    messageBubble.classList.add('message');
-    const displayedMessage = encrypted ? decryptMessage(message) : message;
-    messageBubble.innerHTML = `<strong>${username}:</strong> ${displayedMessage}`;
-    chatBox.appendChild(messageBubble);
-    chatBox.scrollTop = chatBox.scrollHeight;
-}
-
-// Envoyer un message
-sendMessageButton.addEventListener('click', () => {
-    const message = messageInput.value.trim();
-    if (message) {
-        const username = sessionStorage.getItem('username');
-        const encryptedMessage = encryptMessage(message);
-        socket.emit('message', { username, message: encryptedMessage });
-        addMessageToChatBox(username, message); // Ajouter message non chiffré à l'UI
-        messageInput.value = '';
+document.addEventListener("DOMContentLoaded", () => {
+    const messageInput = document.getElementById("messageInput");
+    const sendButton = document.getElementById("sendButton");
+    const chatBox = document.querySelector(".chat-box");
+    
+    // Fonction pour chiffrer les messages
+    function encryptMessage(message, secretKey) {
+        return CryptoJS.AES.encrypt(message, secretKey).toString();
     }
-});
 
-// Recevoir les messages du serveur
-socket.on('message', (data) => {
-    addMessageToChatBox(data.username, data.message, true); // Afficher message chiffré
-});
+    // Fonction pour déchiffrer les messages
+    function decryptMessage(encryptedMessage, secretKey) {
+        const bytes = CryptoJS.AES.decrypt(encryptedMessage, secretKey);
+        return bytes.toString(CryptoJS.enc.Utf8);
+    }
 
-// Charger les anciens messages
-socket.on('loadMessages', (messages) => {
-    messages.forEach(data => {
-        addMessageToChatBox(data.username, data.message, true);
+    // Afficher le message dans le chat
+    function appendMessage(username, message, isSender) {
+        const messageElement = document.createElement("div");
+        messageElement.classList.add("message");
+        
+        // Style de la bulle de message
+        if (isSender) {
+            messageElement.style.alignSelf = "flex-end"; // Messages envoyés à droite
+        } else {
+            messageElement.style.alignSelf = "flex-start"; // Messages reçus à gauche
+        }
+        
+        messageElement.innerHTML = `<strong>${username}</strong> ${message}`;
+        chatBox.appendChild(messageElement);
+        chatBox.scrollTop = chatBox.scrollHeight; // Toujours scroller vers le bas
+    }
+
+    // Envoyer un message
+    function sendMessage() {
+        const message = messageInput.value;
+        const secretKey = "MercuryCorporation19992024"; // Ta clé de chiffrement
+        const encryptedMessage = encryptMessage(message, secretKey);
+
+        appendMessage("ScorpiusBlack", message, true); // Message visible
+        messageInput.value = ""; // Vider le champ
+        // Envoi du message chiffré au serveur ou à l'autre utilisateur
+    }
+
+    // S'assurer que l'événement est ajouté une seule fois
+    sendButton.removeEventListener("click", sendMessage); // Retire tout ancien événement
+    sendButton.addEventListener("click", sendMessage); // Ajoute l'événement proprement
+
+    // Permettre l'envoi en appuyant sur la touche Entrée
+    messageInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault(); // Empêcher le saut de ligne
+            sendMessage(); // Envoyer le message
+        }
     });
 });
