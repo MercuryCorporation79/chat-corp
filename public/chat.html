@@ -15,7 +15,7 @@
     <div class="chat-container">
         <div id="messageArea" class="messages-box"></div>
         <div class="input-area">
-            <input type="text" id="messageInput" placeholder="Écrivez votre message...">
+            <textarea id="messageInput" placeholder="Écrivez votre message..." rows="1"></textarea>
             <button id="sendMessage">Envoyer</button>
         </div>
     </div>
@@ -43,12 +43,23 @@
         });
 
         document.getElementById('sendMessage').addEventListener('click', () => {
-            const message = document.getElementById('messageInput').value;
-            if (message.trim() !== '') {
-                socket.emit('message', { username: username, message: encryptMessage(message) });
-                document.getElementById('messageInput').value = '';
+            sendMessage();
+        });
+
+        document.getElementById('messageInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter' && !e.shiftKey) {  // Envoyer avec Entrée, sans retour à la ligne
+                e.preventDefault();
+                sendMessage();
             }
         });
+
+        function sendMessage() {
+            const message = document.getElementById('messageInput').value.trim();
+            if (message !== '') {
+                socket.emit('message', { username: username, message: encryptMessage(message) });
+                document.getElementById('messageInput').value = '';  // Vider le champ
+            }
+        }
 
         function displayMessage(username, message) {
             const msgDiv = document.createElement('div');
