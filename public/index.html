@@ -3,20 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mercury Corporation - Connexion</title>
-    <link rel="stylesheet" href="/styles.css">
+    <title>Connexion | Mercury Corporation</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="login-container">
-        <img src="/logo.png" alt="Logo Mercury Corporation" class="logo">
-        <h1 class="company-name">Mercury Corporation</h1>
-        <h2>Connexion</h2>
-        <form id="loginForm">
-            <input type="text" id="username" placeholder="Entrez votre nom d'utilisateur" required>
-            <button type="submit">Se connecter</button>
-        </form>
+        <div class="logo">
+            <img src="images/logo.png" alt="Mercury Corporation Logo">
+            <h1>Mercury Corporation</h1>
+        </div>
+        <div class="login-box">
+            <h2>Connexion</h2>
+            <input type="text" id="usernameInput" placeholder="Entrez votre nom d'utilisateur" required>
+            <button id="loginButton">Se connecter</button>
+        </div>
     </div>
-
-    <script src="/script.js"></script>
+    <script>
+        document.getElementById('loginButton').addEventListener('click', () => {
+            const username = document.getElementById('usernameInput').value.trim();
+            if (username) {
+                sessionStorage.setItem('username', username);
+                window.location.href = 'chat.html';
+            }
+        });
+    </script>
 </body>
 </html>

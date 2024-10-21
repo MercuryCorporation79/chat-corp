@@ -1,34 +1,38 @@
 const express = require('express');
-const app = express();
-const path = require('path');
 const http = require('http');
-const WebSocket = require('ws');
+const socketIo = require('socket.io');
+const path = require('path');
 
+const app = express();
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
+const io = socketIo(server);
+
+const PORT = process.env.PORT || 3000;
 
 // Servir les fichiers statiques
 app.use(express.static(path.join(__dirname, 'public')));
 
-wss.on('connection', function connection(ws) {
+let messages = [];
+
+// Socket.IO logique
+io.on('connection', (socket) => {
     console.log('Un utilisateur est connecté.');
 
-    ws.on('message', function incoming(message) {
-        console.log('Reçu:', message);
+    // Envoyer les messages actuels à un nouvel utilisateur
+    socket.emit('loadMessages', messages);
 
-        // Réenvoyer le message à tous les clients connectés
-        wss.clients.forEach(function each(client) {
-            if (client !== ws && client.readyState === WebSocket.OPEN) {
-                client.send(message);
-            }
-        });
+    // Réception d'un nouveau message
+    socket.on('message', (data) => {
+        messages.push(data); // Ajouter le message à la mémoire
+        io.emit('message', data); // Diffuser le message à tous
     });
 
-    ws.on('close', function close() {
+    socket.on('disconnect', () => {
         console.log('Un utilisateur est déconnecté.');
     });
 });
 
-server.listen(3000, function() {
-    console.log('Le serveur est en écoute sur le port 3000');
+// Démarrer le serveur
+server.listen(PORT, () => {
+    console.log(`Serveur démarré sur http://localhost:${PORT}`);
 });
