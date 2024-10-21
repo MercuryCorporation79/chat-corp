@@ -1,3 +1,4 @@
+// server.js
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
@@ -23,8 +24,10 @@ io.on('connection', (socket) => {
 
     // Réception d'un nouveau message
     socket.on('message', (data) => {
-        messages.push(data); // Ajouter le message à la mémoire
-        io.emit('message', data); // Diffuser le message à tous
+        // Ajout du message à la mémoire
+        messages.push(data);
+        // Diffuser le message à tous les clients
+        io.emit('message', data);
     });
 
     socket.on('disconnect', () => {
