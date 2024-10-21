@@ -3,24 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat | Mercury Corporation</title>
+    <title>Chat - Application de Chat</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.0/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+    <script src="chat.js" defer></script>
 </head>
 <body>
-    <div class="chat-container">
-        <div class="logo">
-            <img src="images/logo.png" alt="Mercury Corporation Logo">
-            <h1>Mercury Corporation</h1>
-        </div>
-        <div class="chat-box"></div>
-        <div class="message-input-box">
-            <input type="text" id="messageInput" placeholder="Entrez votre message">
-            <button id="sendMessage">Envoyer</button>
-        </div>
+    <div id="chatContainer">
+        <!-- Ajoutez le logo ici -->
+        <img src="images/logo.png" alt="Logo Mercury Corporation" id="logo">
+        <p>Mercury Corporation</p>
+        
+        <div class="chat-box" id="chatBox"></div>
+        <input type="text" id="messageInput" placeholder="Votre message ici" required>
+        <button id="sendMessage">Envoyer</button>
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-    <script src="script.js"></script>
 </body>
 </html>
