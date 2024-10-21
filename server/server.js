@@ -2,56 +2,36 @@ const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
 const path = require('path');
-const crypto = require('crypto');
+
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
-const users = ["ScorpiusBlack", "MiaBlack"]; // Utilisateurs valides
-let messages = []; // Stocker les messages
+const PORT = process.env.PORT || 3000;
 
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
+let messages = [];
+
+// Écouter les connexions des utilisateurs
 io.on('connection', (socket) => {
-    let currentUser = null;
+    console.log('Un utilisateur est connecté');
 
-    socket.on('join', (username) => {
-        if (users.includes(username)) {
-            currentUser = username;
-            console.log(`${username} connecté`);
-            socket.emit('loadMessages', messages);
-        } else {
-            socket.disconnect(); // Déconnexion si utilisateur non valide
-        }
-    });
+    // Envoyer les messages existants à l'utilisateur qui vient de se connecter
+    socket.emit('loadMessages', messages);
 
+    // Gérer l'envoi de messages
     socket.on('message', (data) => {
-        const encryptedMessage = encryptMessage(data.message);
-        const msg = { username: currentUser, message: encryptedMessage, timestamp: Date.now() };
-        messages.push(msg);
-        io.emit('message', { username: currentUser, message: encryptedMessage });
+        messages.push(data);
+        io.emit('message', data); // Envoyer le message à tous les clients
     });
 
     socket.on('disconnect', () => {
-        console.log(`${currentUser} déconnecté`);
+        console.log('Un utilisateur est déconnecté');
     });
 });
 
-// Chiffrement des messages
-function encryptMessage(message) {
-    const cipher = crypto.createCipher('aes-256-cbc', 'secret-key');
-    let encrypted = cipher.update(message, 'utf8', 'hex');
-    encrypted += cipher.final('hex');
-    return encrypted;
-}
-
-// Suppression des messages après 24 heures
-setInterval(() => {
-    const now = Date.now();
-    messages = messages.filter(msg => now - msg.timestamp < 86400000);  // 24 heures
-}, 60000);
-
-const PORT = process.env.PORT || 3000;
+// Démarrer le serveur
 server.listen(PORT, () => {
-    console.log(`Serveur démarré sur le port ${PORT}`);
+    console.log(`Serveur en cours d'exécution sur http://localhost:${PORT}`);
 });

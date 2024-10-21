@@ -1,14 +1,17 @@
 {
-  "name": "mercury-corp-chat",
+  "name": "chat-corp",
   "version": "1.0.0",
-  "description": "Chat chiffré en temps réel pour Mercury Corporation",
-  "main": "server/server.js",
+  "description": "Application de chat sécurisée",
+  "main": "server.js",
   "scripts": {
-    "start": "node server/server.js"
+    "start": "node server.js"
   },
   "dependencies": {
-    "crypto-js": "^4.2.0",
-    "express": "^4.21.1",
-    "socket.io": "^4.8.0"
+    "express": "^4.17.1",
+    "socket.io": "^4.0.0",
+    "crypto-js": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=14.x"
   }
 }
