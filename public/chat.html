@@ -10,14 +10,16 @@
     <script src="chat.js" defer></script>
 </head>
 <body>
-    <div id="chatContainer">
-        <!-- Ajoutez le logo ici -->
-        <img src="images/logo.png" alt="Logo Mercury Corporation" id="logo">
-        <p>Mercury Corporation</p>
-        
+    <div class="chat-container">
+        <div class="logo">
+            <img src="images/logo.png" alt="Logo Mercury Corporation">
+            <h1>Mercury Corporation</h1>
+        </div>
         <div class="chat-box" id="chatBox"></div>
-        <input type="text" id="messageInput" placeholder="Votre message ici" required>
-        <button id="sendMessage">Envoyer</button>
+        <div class="message-input-box">
+            <input type="text" id="messageInput" placeholder="Votre message ici" required>
+            <button id="sendMessage">Envoyer</button>
+        </div>
     </div>
 </body>
 </html>

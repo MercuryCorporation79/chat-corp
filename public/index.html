@@ -8,16 +8,18 @@
     <script src="script.js" defer></script>
 </head>
 <body>
-    <div id="loginContainer">
+    <div class="login-container">
+        <div class="logo">
+            <img src="images/logo.png" alt="Logo Mercury Corporation">
+            <h1>Mercury Corporation</h1>
+        </div>
         <h2>Connexion</h2>
         
-        <!-- Ajoutez le logo ici -->
-        <img src="images/logo.png" alt="Logo Mercury Corporation" id="logo">
-        <p>Mercury Corporation</p>
-        
-        <input type="text" id="usernameInput" placeholder="Nom d'utilisateur" required>
-        <button id="loginButton">Se connecter</button>
-        <div id="errorMessage" style="color:red; display:none;"></div>
+        <div class="login-box">
+            <input type="text" id="usernameInput" placeholder="Nom d'utilisateur" required>
+            <button id="loginButton">Se connecter</button>
+            <div id="errorMessage" style="color:red; display:none;"></div>
+        </div>
     </div>
 </body>
 </html>
