@@ -1,3 +1,73 @@
+/* Styles de base */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #111;
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    text-align: left;
+    padding: 15px;
+    border-bottom: 1px solid #333;
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    width: 50px;
+    height: 50px;
+    margin-right: 15px;
+}
+
+.title {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 24px;
+    font-style: italic;
+    color: white;
+}
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 15px;
+}
+
+.messages-box {
+    background-color: #1a1a1a;
+    padding: 15px;
+    overflow-y: auto;
+    flex: 1;
+    height: 400px; /* Pour PC */
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #333;
+}
+
+.message {
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    word-wrap: break-word;
+    font-style: italic;
+    max-width: 60%; /* Limite de largeur pour les messages */
+}
+
+.message.incoming {
+    background-color: #333;
+    text-align: left;
+}
+
+.message.outgoing {
+    background-color: #555;
+    text-align: right;
+    margin-left: auto;
+}
+
 /* Barre de messages et bouton envoyer */
 .input-area {
     display: flex;
@@ -15,7 +85,7 @@ textarea {
     resize: none; /* Empêcher le redimensionnement manuel */
     background-color: #222;
     color: #fff;
-    outline: none; /* Retirer le contour */
+    outline: none;
 }
 
 textarea:focus {
@@ -37,27 +107,6 @@ textarea:focus {
     background-color: #666;
 }
 
-.messages-box {
-    background-color: #1a1a1a;
-    padding: 15px;
-    overflow-y: auto;
-    flex: 1;
-    height: 400px; /* Hauteur fixe pour PC */
-    border-radius: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #333;
-}
-
-.message {
-    background-color: #333;
-    padding: 10px;
-    margin: 5px 0;
-    border-radius: 5px;
-    font-style: italic;
-    word-wrap: break-word;
-    max-width: 80%;  /* Limiter la largeur des messages */
-}
-
 /* Adaptation mobile */
 @media (max-width: 600px) {
     .chat-container {
@@ -74,6 +123,6 @@ textarea:focus {
     }
 
     .messages-box {
-        height: 250px; /* Hauteur plus petite pour mobile */
+        height: 250px; /* Hauteur réduite pour mobile */
     }
 }
