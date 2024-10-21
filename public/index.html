@@ -3,32 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion - Mercury Corporation</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Connexion | Mercury Corporation</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="header-login">
-        <img src="images/logo.png" alt="Mercury Corporation Logo" class="logo">
-        <h1 class="title">Mercury Corporation</h1>
-    </div>
-
     <div class="login-container">
-        <form id="loginForm">
-            <input type="text" id="username" placeholder="Nom d'utilisateur" required>
-            <button type="submit">Se connecter</button>
-        </form>
+        <div class="logo">
+            <img src="images/logo.png" alt="Mercury Corporation Logo">
+            <h1>Mercury Corporation</h1>
+        </div>
+        <div class="login-box">
+            <h2>Connexion</h2>
+            <input type="text" id="usernameInput" placeholder="Entrez votre nom d'utilisateur" required>
+            <button id="loginButton">Se connecter</button>
+        </div>
     </div>
-
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const username = document.getElementById('username').value.trim();
-            
-            if (username === 'ScorpiusBlack' || username === 'MiaBlack') {
-                localStorage.setItem('username', username);
-                window.location.href = 'chat.html'; // Rediriger vers le chat si le nom d'utilisateur est correct
-            } else {
-                alert("Nom d'utilisateur incorrect.");
+        document.getElementById('loginButton').addEventListener('click', () => {
+            const username = document.getElementById('usernameInput').value.trim();
+            if (username) {
+                sessionStorage.setItem('username', username);
+                window.location.href = 'chat.html';
             }
         });
     </script>

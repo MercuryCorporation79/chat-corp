@@ -1,167 +1,168 @@
-/* Styles de base */
+/* Styles globaux */
 body {
-    font-family: 'Arial', sans-serif;
     background-color: #111;
-    color: white;
+    color: #fff;
+    font-family: 'Helvetica', Arial, sans-serif;
     margin: 0;
     padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
 }
 
-/* Styles pour le logo et le titre */
-.header, .header-login {
-    text-align: center;
-    padding: 15px;
-    border-bottom: 1px solid #333;
-}
-
-.logo {
-    width: 50px;
-    height: 50px;
-}
-
-.title {
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 24px;
+h1 {
+    font-size: 28px;
     font-style: italic;
-    color: white;
+    color: #fff;
+    margin: 10px 0;
 }
 
-/* Styles pour la page de connexion */
-.login-container {
+/* Container pour la page de connexion */
+.login-container, .chat-container {
+    background-color: #222;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.6);
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center; /* Centrer verticalement */
-    height: 80vh; /* Hauteur de la page */
 }
 
-#username {
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
-    margin-bottom: 10px;
-    font-size: 16px;
-    background-color: #222;
+/* Logo et texte */
+.logo img {
+    width: 80px;
+    margin-bottom: 15px;
+}
+
+.logo h1 {
+    font-size: 22px;
+    font-style: italic;
     color: #fff;
-    width: 300px; /* Largeur fixe pour le champ */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
-#username:focus {
-    border: 1px solid #555;
+/* Champ de texte et bouton pour la page de connexion */
+.login-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+input[type="text"] {
+    width: 90%;
+    padding: 12px;
+    margin: 15px 0;
+    border: none;
+    border-radius: 5px;
+    background-color: #333;
+    color: #fff;
+    font-size: 16px;
+    text-align: center;
 }
 
 button {
     padding: 10px 20px;
-    border-radius: 5px;
-    border: none;
+    margin-top: 10px;
     background-color: #444;
-    color: white;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
+    width: 90%;
     font-size: 16px;
 }
 
 button:hover {
-    background-color: #666;
+    background-color: #555;
 }
 
-/* Styles pour le chat */
-.chat-container {
-    display: flex;
-    flex-direction: column;
-    height: 80vh;
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 15px;
-}
-
-.messages-box {
-    background-color: #1a1a1a;
-    padding: 15px;
-    overflow-y: auto;
-    flex: 1;
-    border-radius: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #333;
-}
-
-.message {
+/* Style pour la boîte de discussion */
+.chat-box {
+    background-color: #222;
     padding: 10px;
-    margin: 5px 0;
-    border-radius: 5px;
+    height: 300px;
+    width: 100%;
+    max-width: 400px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Bulles de message */
+.message {
+    background-color: #333;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
     word-wrap: break-word;
-    font-style: italic;
-    max-width: 60%; /* Limite de largeur pour les messages */
-    color: white; /* Texte blanc */
 }
 
-.message.incoming {
-    background-color: #333; /* Fond pour les messages entrants */
-    text-align: left;
+.message strong {
+    color: #ddd;
+    font-size: 14px;
+    margin-bottom: 4px;
+    display: block;
 }
 
-.message.outgoing {
-    background-color: #555; /* Fond pour les messages sortants */
-    text-align: right;
-    margin-left: auto; /* Alignement à droite */
-}
-
-/* Barre de messages et bouton envoyer */
-.input-area {
+/* Input message et bouton d'envoi */
+.message-input-box {
     display: flex;
+    justify-content: space-between;
     width: 100%;
     align-items: center;
-    margin-top: 10px;
 }
 
-textarea {
-    flex: 1;
+.message-input-box input[type="text"] {
+    flex-grow: 1;
     padding: 12px;
-    border-radius: 5px;
-    border: none;
-    font-size: 16px;
-    resize: none; /* Empêcher le redimensionnement manuel */
-    background-color: #222;
+    background-color: #333;
     color: #fff;
-    outline: none; /* Retirer le contour */
-}
-
-textarea:focus {
-    border: 1px solid #555;
-}
-
-#sendMessage {
-    padding: 12px 20px;
-    margin-left: 10px;
-    border-radius: 5
-
-px;
     border: none;
+    border-radius: 8px;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+.message-input-box button {
     background-color: #444;
-    color: white;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
 }
 
-#sendMessage:hover {
-    background-color: #666;
+.message-input-box button:hover {
+    background-color: #555;
 }
 
-/* Adaptation mobile */
+/* Styles pour mobile */
 @media (max-width: 600px) {
-    .chat-container {
-        width: 100%;
-        height: 70vh;
-    }
-    
-    #messageInput {
-        font-size: 14px;
-    }
-    
-    button {
-        font-size: 14px;
+    .login-container, .chat-container {
+        width: 90%;
+        max-width: 100%;
+        padding: 20px;
     }
 
-    #username {
-        width: 90%;
+    .message-input-box input[type="text"], button {
+        font-size: 12px;
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    .logo img {
+        width: 60px;
     }
 }
