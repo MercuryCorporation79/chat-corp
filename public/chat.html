@@ -56,7 +56,7 @@
         function sendMessage() {
             const message = document.getElementById('messageInput').value.trim();
             if (message !== '') {
-                socket.emit('message', { message });
+                socket.emit('message', { username: username, message: encryptMessage(message) });
                 document.getElementById('messageInput').value = '';  // Vider le champ
             }
         }

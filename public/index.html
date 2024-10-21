@@ -3,27 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion - Mercury Corporation Chat</title>
+    <title>Connexion - Mercury Corporation</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="login-container">
+    <div class="header-login">
         <img src="images/logo.png" alt="Mercury Corporation Logo" class="logo">
         <h1 class="title">Mercury Corporation</h1>
-        <p>Veuillez entrer votre nom d'utilisateur</p>
-        <input type="text" id="usernameInput" placeholder="Nom d'utilisateur">
-        <button id="loginButton">Se connecter</button>
-        <p id="errorMessage" class="error"></p>
+    </div>
+
+    <div class="login-container">
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Nom d'utilisateur" required>
+            <button type="submit">Se connecter</button>
+        </form>
     </div>
 
     <script>
-        document.getElementById('loginButton').addEventListener('click', () => {
-            const username = document.getElementById('usernameInput').value.trim();
-            if (username === "ScorpiusBlack" || username === "MiaBlack") {
-                localStorage.setItem('username', username);  // Stocker temporairement le nom
-                window.location.href = 'chat.html';  // Rediriger vers la page de chat
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            
+            if (username === 'ScorpiusBlack' || username === 'MiaBlack') {
+                localStorage.setItem('username', username);
+                window.location.href = 'chat.html'; // Rediriger vers le chat si le nom d'utilisateur est correct
             } else {
-                document.getElementById('errorMessage').textContent = "Nom d'utilisateur incorrect. Veuillez entrer 'ScorpiusBlack' ou 'MiaBlack'.";
+                alert("Nom d'utilisateur incorrect.");
             }
         });
     </script>
