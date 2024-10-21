@@ -6,23 +6,23 @@ const messageInput = document.getElementById('messageInput');
 const sendMessageButton = document.getElementById('sendMessage');
 const chatBox = document.querySelector('.chat-box');
 
-// Fonction pour ajouter le message dans l'interface utilisateur
+// Fonction pour ajouter un message dans l'interface utilisateur
 function addMessageToChatBox(username, message) {
     const messageBubble = document.createElement('div');
     messageBubble.classList.add('message');
     messageBubble.innerHTML = `<strong>${username}:</strong> ${message}`;
     chatBox.appendChild(messageBubble);
-    chatBox.scrollTop = chatBox.scrollHeight; // Scroll vers le bas
+    chatBox.scrollTop = chatBox.scrollHeight; // Faire défiler vers le bas automatiquement
 }
 
-// Écouter l'événement de clic sur le bouton d'envoi
+// Envoyer le message lorsque l'utilisateur clique sur "Envoyer"
 sendMessageButton.addEventListener('click', () => {
     const message = messageInput.value.trim();
     if (message) {
-        const username = sessionStorage.getItem('username');
-        socket.emit('message', { username, message });
-        addMessageToChatBox(username, message); // Ajouter le message directement dans le chat pour l'envoyeur
-        messageInput.value = ''; // Effacer le champ d'entrée après l'envoi
+        const username = sessionStorage.getItem('username') || 'Anonyme';
+        socket.emit('message', { username, message }); // Envoyer le message au serveur
+        addMessageToChatBox(username, message); // Ajouter le message dans la boîte de chat
+        messageInput.value = ''; // Vider le champ de saisie après l'envoi
     }
 });
 

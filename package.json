@@ -1,15 +1,14 @@
 {
-  "name": "chat-corp",
+  "name": "mercury-chat",
   "version": "1.0.0",
-  "description": "Application de chat sécurisée",
+  "description": "Application de chat en temps réel",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
     "express": "^4.17.1",
-    "socket.io": "^4.0.0",
-    "crypto-js": "^4.0.0"
+    "socket.io": "^4.0.0"
   },
   "engines": {
     "node": ">=14.x"

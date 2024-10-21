@@ -9,27 +9,31 @@ const io = socketIo(server);
 
 const PORT = process.env.PORT || 3000;
 
+// Servir les fichiers statiques (HTML, CSS, JS) depuis le dossier "public"
 app.use(express.static(path.join(__dirname, 'public')));
 
-let messages = []; // Tableau pour stocker les messages temporaires
+// Stock temporaire pour les messages
+let messages = [];
 
+// Gérer la connexion des utilisateurs à Socket.IO
 io.on('connection', (socket) => {
     console.log('Un utilisateur est connecté');
 
-    // Envoyer les anciens messages à l'utilisateur connecté
+    // Envoyer les anciens messages à l'utilisateur qui vient de se connecter
     socket.emit('loadMessages', messages);
 
-    // Gérer la réception d'un nouveau message
+    // Recevoir un nouveau message
     socket.on('message', (data) => {
-        messages.push(data); // Ajouter le message dans le tableau des messages
-        io.emit('message', data); // Répandre le message à tous les clients
+        messages.push(data); // Ajouter le message dans le tableau de messages
+        io.emit('message', data); // Diffuser le message à tous les utilisateurs connectés
     });
 
     socket.on('disconnect', () => {
-        console.log('Un utilisateur s\'est déconnecté');
+        console.log('Un utilisateur est déconnecté');
     });
 });
 
+// Démarrer le serveur sur le port spécifié
 server.listen(PORT, () => {
     console.log(`Serveur démarré sur http://localhost:${PORT}`);
 });
