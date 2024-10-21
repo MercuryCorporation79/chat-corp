@@ -1,56 +1,65 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const messageInput = document.getElementById("messageInput");
+document.addEventListener("DOMContentLoaded", function() {
+    const loginForm = document.getElementById("loginForm");
     const sendButton = document.getElementById("sendButton");
-    const chatBox = document.querySelector(".chat-box");
-    
-    // Fonction pour chiffrer les messages
-    function encryptMessage(message, secretKey) {
-        return CryptoJS.AES.encrypt(message, secretKey).toString();
+    const messageInput = document.getElementById("message");
+    const chatbox = document.getElementById("chatbox");
+    const validUsers = ["ScorpiusBlack", "MiaBlack"];
+    const key = 'MercuryCorporation19992024';
+
+    // Gestion de la connexion
+    if (loginForm) {
+        loginForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+            const username = document.getElementById("username").value;
+
+            if (validUsers.includes(username)) {
+                localStorage.setItem("username", username);
+                window.location.href = "/chat.html";
+            } else {
+                alert("Nom d'utilisateur invalide !");
+            }
+        });
     }
 
-    // Fonction pour déchiffrer les messages
-    function decryptMessage(encryptedMessage, secretKey) {
-        const bytes = CryptoJS.AES.decrypt(encryptedMessage, secretKey);
-        return bytes.toString(CryptoJS.enc.Utf8);
+    // Gestion de l'envoi des messages
+    if (sendButton) {
+        sendButton.addEventListener("click", sendMessage);
     }
 
-    // Afficher le message dans le chat
-    function appendMessage(username, message, isSender) {
-        const messageElement = document.createElement("div");
-        messageElement.classList.add("message");
-        
-        // Style de la bulle de message
-        if (isSender) {
-            messageElement.style.alignSelf = "flex-end"; // Messages envoyés à droite
-        } else {
-            messageElement.style.alignSelf = "flex-start"; // Messages reçus à gauche
-        }
-        
-        messageElement.innerHTML = `<strong>${username}</strong> ${message}`;
-        chatBox.appendChild(messageElement);
-        chatBox.scrollTop = chatBox.scrollHeight; // Toujours scroller vers le bas
-    }
-
-    // Envoyer un message
     function sendMessage() {
-        const message = messageInput.value;
-        const secretKey = "MercuryCorporation19992024"; // Ta clé de chiffrement
-        const encryptedMessage = encryptMessage(message, secretKey);
+        const message = messageInput.value.trim();
+        const username = localStorage.getItem("username");
 
-        appendMessage("ScorpiusBlack", message, true); // Message visible
-        messageInput.value = ""; // Vider le champ
-        // Envoi du message chiffré au serveur ou à l'autre utilisateur
+        if (message !== "" && username) {
+            const encryptedMessage = encryptMessage(message);
+            displayMessage(username, encryptedMessage);
+            messageInput.value = "";
+
+            // Envoi au serveur WebSocket ici si besoin.
+        }
     }
 
-    // S'assurer que l'événement est ajouté une seule fois
-    sendButton.removeEventListener("click", sendMessage); // Retire tout ancien événement
-    sendButton.addEventListener("click", sendMessage); // Ajoute l'événement proprement
+    function displayMessage(username, message) {
+        const messageBubble = document.createElement("div");
+        messageBubble.classList.add("message-bubble");
 
-    // Permettre l'envoi en appuyant sur la touche Entrée
-    messageInput.addEventListener("keypress", (e) => {
-        if (e.key === "Enter") {
-            e.preventDefault(); // Empêcher le saut de ligne
-            sendMessage(); // Envoyer le message
-        }
-    });
+        const userTag = document.createElement("p");
+        userTag.classList.add("username");
+        userTag.innerText = username;
+
+        const messageContent = document.createElement("p");
+        messageContent.classList.add("message-content");
+        messageContent.innerText = message;
+
+        messageBubble.appendChild(userTag);
+        messageBubble.appendChild(messageContent);
+
+        chatbox.appendChild(messageBubble);
+        chatbox.scrollTop = chatbox.scrollHeight; // Scroll auto vers le bas
+    }
+
+    function encryptMessage(message) {
+        // Exemple d'encryptage simple pour l'exercice
+        return btoa(message); // Encode en base64
+    }
 });

@@ -1,169 +1,116 @@
-/* Styles globaux */
+/* Corps général */
 body {
-    background-color: #111; /* Fond noir */
-    color: #fff;
+    background-color: #121212;
+    color: white;
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
+}
+
+/* Conteneur de login */
+.login-container {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    align-items: center;
     height: 100vh;
-    overflow: hidden;
-}
-
-h1 {
-    font-size: 28px;
-    font-style: italic;
-    color: #fff;
-    margin: 10px 0;
-}
-
-/* Container pour la page de connexion */
-.login-container, .chat-container {
-    background-color: #222; /* Arrière-plan gris foncé */
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.6);
     text-align: center;
-    width: 90%;
-    max-width: 400px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
-/* Logo et texte */
-.logo img {
-    width: 80px;
-    margin-bottom: 15px;
-}
-
-.logo h1 {
-    font-size: 22px;
-    font-style: italic;
-    color: #fff;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+.login-container .logo {
+    width: 150px;
     margin-bottom: 20px;
 }
 
-/* Champ de texte et bouton pour la page de connexion */
-.login-box {
+.login-container .company-name {
+    font-size: 2em;
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+.login-container form {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    width: 100%;
 }
 
-input[type="text"] {
-    width: 90%;
-    padding: 12px;
-    margin: 15px 0;
-    border: none;
-    border-radius: 5px;
-    background-color: #333; /* Fond des champs gris foncé */
-    color: #fff;
-    font-size: 16px;
-    text-align: center;
-}
-
-button {
-    padding: 10px 20px;
-    margin-top: 10px;
-    background-color: #444; /* Boutons gris */
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 90%;
-    font-size: 16px;
-}
-
-button:hover {
-    background-color: #555; /* Boutons gris clair au survol */
-}
-
-/* Style pour la boîte de discussion */
-.chat-box {
-    background-color: #222;
+.login-container input {
     padding: 10px;
-    height: 300px;
-    width: 100%;
-    max-width: 400px;
-    overflow-y: auto;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5); /* Ombre interne pour la boîte */
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+    width: 300px;
+    max-width: 100%;
 }
 
-/* Bulles de message */
-.message {
-    background-color: #333; /* Fond des messages */
-    padding: 12px;
-    margin: 8px 0;
-    border-radius: 8px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Ombre sur les messages */
-    word-wrap: break-word;
-}
-
-.message strong {
-    color: #ddd;
-    font-size: 14px;
-    margin-bottom: 4px;
-    display: block;
-}
-
-/* Input message et bouton d'envoi */
-.message-input-box {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    align-items: center;
-}
-
-.message-input-box input[type="text"] {
-    flex-grow: 1;
-    padding: 12px;
+.login-container button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
     background-color: #333;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    margin-right: 10px;
-    font-size: 14px;
-}
-
-.message-input-box button {
-    background-color: #444;
-    color: #fff;
-    border: none;
-    padding: 12px;
-    border-radius: 8px;
+    color: white;
     cursor: pointer;
-    font-size: 14px;
 }
 
-.message-input-box button:hover {
-    background-color: #555;
+/* Chatbox */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
 
-/* Styles pour mobile */
-@media (max-width: 600px) {
-    .login-container, .chat-container {
-        width: 90%;
-        max-width: 100%;
-        padding: 20px;
-    }
+.chat-header {
+    text-align: center;
+    padding: 10px;
+}
 
-    .message-input-box input[type="text"], button {
-        font-size: 12px;
-        padding: 10px;
-    }
+.chat-header .logo {
+    width: 100px;
+}
 
-    h1 {
-        font-size: 20px;
-    }
+.chatbox {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: scroll;
+}
 
-    .logo img {
-        width: 60px;
-    }
+.message-input {
+    display: flex;
+    padding: 10px;
+}
+
+.message-input input {
+    flex-grow: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.message-input button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #333;
+    color: white;
+    cursor: pointer;
+}
+
+/* Messages */
+.message-bubble {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    width: fit-content;
+}
+
+.username {
+    font-weight: bold;
+    font-style: italic;
+}
+
+.message-content {
+    margin-top: 5px;
 }

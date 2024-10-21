@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat | Mercury Corporation</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Mercury Corporation - Chat</title>
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
     <div class="chat-container">
-        <div class="logo">
-            <img src="images/logo.png" alt="Mercury Corporation Logo">
-            <h1>Mercury Corporation</h1>
+        <div class="chat-header">
+            <img src="/logo.png" alt="Logo Mercury Corporation" class="logo">
+            <h1 class="company-name">Mercury Corporation</h1>
         </div>
-        <div class="chat-box"></div>
-        <div class="message-input-box">
-            <input type="text" id="messageInput" placeholder="Entrez votre message">
-            <button id="sendMessage">Envoyer</button>
+
+        <div id="chatbox" class="chatbox"></div>
+
+        <div class="message-input">
+            <input type="text" id="message" placeholder="Entrez votre message...">
+            <button id="sendButton">Envoyer</button>
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-    <script src="script.js"></script>
+    <script src="/script.js"></script>
 </body>
 </html>
