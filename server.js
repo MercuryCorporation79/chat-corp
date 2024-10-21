@@ -11,27 +11,25 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-let messages = [];
+let messages = []; // Tableau pour stocker les messages temporaires
 
-// Écouter les connexions des utilisateurs
 io.on('connection', (socket) => {
     console.log('Un utilisateur est connecté');
 
-    // Envoyer les messages existants à l'utilisateur qui vient de se connecter
+    // Envoyer les anciens messages à l'utilisateur connecté
     socket.emit('loadMessages', messages);
 
-    // Gérer l'envoi de messages
+    // Gérer la réception d'un nouveau message
     socket.on('message', (data) => {
-        messages.push(data);
-        io.emit('message', data); // Envoyer le message à tous les clients
+        messages.push(data); // Ajouter le message dans le tableau des messages
+        io.emit('message', data); // Répandre le message à tous les clients
     });
 
     socket.on('disconnect', () => {
-        console.log('Un utilisateur est déconnecté');
+        console.log('Un utilisateur s\'est déconnecté');
     });
 });
 
-// Démarrer le serveur
 server.listen(PORT, () => {
-    console.log(`Serveur en cours d'exécution sur http://localhost:${PORT}`);
+    console.log(`Serveur démarré sur http://localhost:${PORT}`);
 });
