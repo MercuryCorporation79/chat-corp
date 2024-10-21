@@ -6,6 +6,12 @@ document.addEventListener("DOMContentLoaded", function() {
     const validUsers = ["ScorpiusBlack", "MiaBlack"];
     const key = 'MercuryCorporation19992024';
 
+    // Charger les messages précédents depuis le localStorage
+    const savedMessages = JSON.parse(localStorage.getItem("messages")) || [];
+    savedMessages.forEach(function(msg) {
+        displayMessage(msg.username, msg.message);
+    });
+
     // Gestion de la connexion
     if (loginForm) {
         loginForm.addEventListener("submit", function(event) {
@@ -31,13 +37,19 @@ document.addEventListener("DOMContentLoaded", function() {
         const username = localStorage.getItem("username");
 
         if (message !== "" && username) {
-            // Si tu veux vraiment chiffrer, active cette ligne :
-            // const encryptedMessage = encryptMessage(message);
-            // Si tu veux envoyer directement en clair, envoie simplement le message :
-            displayMessage(username, message); // Pas de chiffrement pour l'affichage direct
-            messageInput.value = "";
+            displayMessage(username, message);
 
-            // Envoi au serveur WebSocket ici si besoin.
+            // Sauvegarder le message dans le localStorage
+            const savedMessages = JSON.parse(localStorage.getItem("messages")) || [];
+            savedMessages.push({ username, message });
+            localStorage.setItem("messages", JSON.stringify(savedMessages));
+
+            // Envoi du message à tous les utilisateurs via WebSocket
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({ username, message }));
+            }
+
+            messageInput.value = "";
         }
     }
 
@@ -51,24 +63,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const messageContent = document.createElement("p");
         messageContent.classList.add("message-content");
-        
-        // Si tu as besoin de déchiffrer le message, active cette ligne :
-        // const decryptedMessage = decryptMessage(message); 
-        // Si tu n'utilises pas le chiffrement, affiche directement :
-        messageContent.innerText = message; // Remplacer par decryptedMessage si besoin
+        messageContent.innerText = message;
 
         messageBubble.appendChild(userTag);
         messageBubble.appendChild(messageContent);
 
         chatbox.appendChild(messageBubble);
         chatbox.scrollTop = chatbox.scrollHeight; // Scroll auto vers le bas
-    }
-
-    function encryptMessage(message) {
-        return btoa(message); // Encode en base64
-    }
-
-    function decryptMessage(message) {
-        return atob(message); // Decode en base64
     }
 });
