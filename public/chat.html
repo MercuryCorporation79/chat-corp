@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discussion - Mercury Corporation Chat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header">
+        <img src="images/logo.png" alt="Mercury Corporation Logo" class="logo">
+        <h1 class="title">Mercury Corporation</h1>
+    </div>
+    
+    <div class="chat-container">
+        <div id="messageArea" class="messages-box"></div>
+        <div class="input-area">
+            <input type="text" id="messageInput" placeholder="Écrivez votre message...">
+            <button id="sendMessage">Envoyer</button>
+        </div>
+    </div>
+    
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js"></script>
+    <script>
+        const socket = io();
+        const username = localStorage.getItem('username');
+
+        if (!username) {
+            window.location.href = 'index.html';  // Rediriger vers la page de connexion si l'utilisateur n'est pas connecté
+        }
+
+        socket.emit('join', username);
+
+        socket.on('loadMessages', (messages) => {
+            messages.forEach(msg => {
+                displayMessage(msg.username, decryptMessage(msg.message));
+            });
+        });
+
+        socket.on('message', (data) => {
+            displayMessage(data.username, decryptMessage(data.message));
+        });
+
+        document.getElementById('sendMessage').addEventListener('click', () => {
+            const message = document.getElementById('messageInput').value;
+            if (message.trim() !== '') {
+                socket.emit('message', { username: username, message: encryptMessage(message) });
+                document.getElementById('messageInput').value = '';
+            }
+        });
+
+        function displayMessage(username, message) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'message';
+            msgDiv.innerHTML = `<strong>${username}:</strong> ${message}`;
+            document.getElementById('messageArea').appendChild(msgDiv);
+            document.getElementById('messageArea').scrollTop = document.getElementById('messageArea').scrollHeight;  // Scroll automatique
+        }
+
+        function encryptMessage(message) {
+            return CryptoJS.AES.encrypt(message, 'secret-key').toString();
+        }
+
+        function decryptMessage(encrypted) {
+            const bytes = CryptoJS.AES.decrypt(encrypted, 'secret-key');
+            return bytes.toString(CryptoJS.enc.Utf8);
+        }
+    </script>
+</body>
+</html>

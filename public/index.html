@@ -3,61 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mercury Corporation Chat</title>
+    <title>Connexion - Mercury Corporation Chat</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="header">
+    <div class="login-container">
         <img src="images/logo.png" alt="Mercury Corporation Logo" class="logo">
         <h1 class="title">Mercury Corporation</h1>
+        <p>Veuillez entrer votre nom d'utilisateur</p>
+        <input type="text" id="usernameInput" placeholder="ScorpiusBlack ou MiaBlack">
+        <button id="loginButton">Se connecter</button>
+        <p id="errorMessage" class="error"></p>
     </div>
-    
-    <div class="chat-container">
-        <div id="messages"></div>
-        <input type="text" id="messageInput" placeholder="Écrivez votre message...">
-        <button id="sendMessage">Envoyer</button>
-    </div>
-    
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/crypto-js"></script>
+
     <script>
-        const socket = io();
-        const username = prompt("Entrez votre nom d'utilisateur :");
-
-        // Rejoindre la session si l'utilisateur est valide
-        socket.emit('join', username);
-
-        socket.on('loadMessages', (messages) => {
-            messages.forEach(msg => {
-                displayMessage(msg.username, decryptMessage(msg.message));
-            });
+        document.getElementById('loginButton').addEventListener('click', () => {
+            const username = document.getElementById('usernameInput').value.trim();
+            if (username === "ScorpiusBlack" || username === "MiaBlack") {
+                localStorage.setItem('username', username);  // Stocker temporairement le nom
+                window.location.href = 'chat.html';  // Rediriger vers la page de chat
+            } else {
+                document.getElementById('errorMessage').textContent = "Nom d'utilisateur incorrect. Veuillez entrer 'ScorpiusBlack' ou 'MiaBlack'.";
+            }
         });
-
-        socket.on('message', (data) => {
-            displayMessage(data.username, decryptMessage(data.message));
-        });
-
-        document.getElementById('sendMessage').addEventListener('click', () => {
-            const message = document.getElementById('messageInput').value;
-            socket.emit('message', { username: username, message: encryptMessage(message) });
-            document.getElementById('messageInput').value = '';
-        });
-
-        function displayMessage(username, message) {
-            const msgDiv = document.createElement('div');
-            msgDiv.className = 'message';
-            msgDiv.innerHTML = `<strong>${username}:</strong> ${message}`;
-            document.getElementById('messages').appendChild(msgDiv);
-        }
-
-        function encryptMessage(message) {
-            return CryptoJS.AES.encrypt(message, 'secret-key').toString();
-        }
-
-        function decryptMessage(encrypted) {
-            const bytes = CryptoJS.AES.decrypt(encrypted, 'secret-key');
-            return bytes.toString(CryptoJS.enc.Utf8);
-        }
     </script>
 </body>
 </html>
