@@ -31,8 +31,10 @@ document.addEventListener("DOMContentLoaded", function() {
         const username = localStorage.getItem("username");
 
         if (message !== "" && username) {
-            const encryptedMessage = encryptMessage(message);
-            displayMessage(username, encryptedMessage);
+            // Si tu veux vraiment chiffrer, active cette ligne :
+            // const encryptedMessage = encryptMessage(message);
+            // Si tu veux envoyer directement en clair, envoie simplement le message :
+            displayMessage(username, message); // Pas de chiffrement pour l'affichage direct
             messageInput.value = "";
 
             // Envoi au serveur WebSocket ici si besoin.
@@ -49,7 +51,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const messageContent = document.createElement("p");
         messageContent.classList.add("message-content");
-        messageContent.innerText = message;
+        
+        // Si tu as besoin de déchiffrer le message, active cette ligne :
+        // const decryptedMessage = decryptMessage(message); 
+        // Si tu n'utilises pas le chiffrement, affiche directement :
+        messageContent.innerText = message; // Remplacer par decryptedMessage si besoin
 
         messageBubble.appendChild(userTag);
         messageBubble.appendChild(messageContent);
@@ -59,7 +65,10 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function encryptMessage(message) {
-        // Exemple d'encryptage simple pour l'exercice
         return btoa(message); // Encode en base64
+    }
+
+    function decryptMessage(message) {
+        return atob(message); // Decode en base64
     }
 });
