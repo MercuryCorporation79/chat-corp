@@ -33,20 +33,28 @@ sendMessageButton.addEventListener('click', () => {
     if (message) {
         const username = sessionStorage.getItem('username');
         const encryptedMessage = encryptMessage(message);
+        
+        // Émettre le message au serveur
         socket.emit('message', { username, message: encryptedMessage });
-        addMessageToChatBox(username, message); // Ajouter message non chiffré à l'UI
+
+        // Ajouter le message non chiffré à l'interface utilisateur
+        addMessageToChatBox(username, message); 
         messageInput.value = '';
     }
 });
 
 // Recevoir les messages du serveur
 socket.on('message', (data) => {
-    addMessageToChatBox(data.username, data.message, true); // Afficher message chiffré
+    // Vérifiez si le message a déjà été affiché pour éviter les doublons
+    if (data.message) {
+        addMessageToChatBox(data.username, data.message, true); // Afficher message chiffré
+    }
 });
 
 // Charger les anciens messages
 socket.on('loadMessages', (messages) => {
     messages.forEach(data => {
+        // Vérifiez si le message a déjà été affiché pour éviter les doublons
         addMessageToChatBox(data.username, data.message, true);
     });
 });
